@@ -129,7 +129,13 @@ resource "aws_ecs_task_definition" "default" {
 
   # Information about the platform for the Amazon ECS service or task.
   # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RuntimePlatform.html
-  runtime_platform = var.runtime_platform
+  dynamic runtime_platform {
+    for_each = length(var.runtime_platform) > 1 ? [""] : []
+    content {
+      operating_system_family = var.runtime_platform.operating_system_family
+      cpu_architecture        = var.runtime_platform.cpu_architecture
+    }
+  }
 
   # The number of CPU units used by the task.
   # It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu.

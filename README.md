@@ -109,7 +109,7 @@ module "ecs_scheduled_task" {
 | platform_version               | Specifies the platform version for the task.                                      | `string`       | `"1.4.0"`                       |    no    |
 | requires_compatibilities       | A set of launch types required by the task. The valid values are EC2 and FARGATE. | `list(string)` | <pre>[<br> "FARGATE"<br>]</pre> |    no    |
 | security_groups                | The security groups associated with the task or service.                          | `list(string)` | `[]`                            |    no    |
-| runtime_platform               | Information about the platform for the Amazon ECS service or task.                | `map(string)`  |                             |    no    |
+| runtime_platform               | Information about the platform for the Amazon ECS service or task.                | `map(string)`  | `{}`                            |    no    |
 
 | tags                           | A mapping of tags to assign to all resources.                                     | `map(string)`  | `{}`                            |    no    |
 | task_count                     | The number of tasks to create based on the TaskDefinition.                        | `string`       | `1`                             |    no    |

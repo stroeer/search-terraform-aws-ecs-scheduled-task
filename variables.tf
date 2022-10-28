@@ -25,7 +25,7 @@ variable "container_definitions" {
 
 variable "runtime_platform" {
   type        = map(string)
-  default     = null
+  default     = {}
   description = "Information about the platform for the Amazon ECS service or task."
 }
 
