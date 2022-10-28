@@ -4,6 +4,10 @@ module "ecs_scheduled_task" {
   schedule_expression = "rate(3 minutes)"
   cluster_arn         = aws_ecs_cluster.example.arn
   subnets             = module.vpc.public_subnet_ids
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "ARM64"
+  }
 
   container_definitions = jsonencode([
     {

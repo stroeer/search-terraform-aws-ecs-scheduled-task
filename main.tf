@@ -127,6 +127,10 @@ resource "aws_ecs_task_definition" "default" {
   # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definitions
   container_definitions = var.container_definitions
 
+  # Information about the platform for the Amazon ECS service or task.
+  # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RuntimePlatform.html
+  runtime_platform = var.runtime_platform
+
   # The number of CPU units used by the task.
   # It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu.
   # String values are converted to an integer indicating the CPU units when the task definition is registered.

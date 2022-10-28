@@ -18,7 +18,7 @@ This module provides recommended settings:
 
 ```hcl
 module "ecs_scheduled_task" {
-  source                = "git::https://github.com/stroeer/search-terraform-aws-ecs-scheduled-task.git?ref=tags/2.0.0"
+  source                = "git::https://github.com/stroeer/search-terraform-aws-ecs-scheduled-task.git?ref=tags/2.1.0"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
   container_definitions = var.container_definitions
@@ -31,7 +31,7 @@ module "ecs_scheduled_task" {
 
 ```hcl
 module "ecs_scheduled_task" {
-  source                = "git::https://github.com/stroeer/search-terraform-aws-ecs-scheduled-task.git?ref=tags/2.0.0"
+  source                = "git::https://github.com/stroeer/search-terraform-aws-ecs-scheduled-task.git?ref=tags/2.1.0"
   name                  = "example"
   schedule_expression   = "rate(3 minutes)"
   container_definitions = var.container_definitions
@@ -49,6 +49,11 @@ module "ecs_scheduled_task" {
   iam_path                 = "/service_role/"
   description              = "This is example"
   enabled                  = true
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "ARM64"
+  }
 
   create_ecs_events_role = false
   ecs_events_role_arn    = var.ecs_events_role_arn
@@ -104,6 +109,8 @@ module "ecs_scheduled_task" {
 | platform_version               | Specifies the platform version for the task.                                      | `string`       | `"1.4.0"`                       |    no    |
 | requires_compatibilities       | A set of launch types required by the task. The valid values are EC2 and FARGATE. | `list(string)` | <pre>[<br> "FARGATE"<br>]</pre> |    no    |
 | security_groups                | The security groups associated with the task or service.                          | `list(string)` | `[]`                            |    no    |
+| runtime_platform               | Information about the platform for the Amazon ECS service or task.                | `map(string)`  |                             |    no    |
+
 | tags                           | A mapping of tags to assign to all resources.                                     | `map(string)`  | `{}`                            |    no    |
 | task_count                     | The number of tasks to create based on the TaskDefinition.                        | `string`       | `1`                             |    no    |
 

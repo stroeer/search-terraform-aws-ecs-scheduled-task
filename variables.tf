@@ -23,6 +23,12 @@ variable "container_definitions" {
   description = "A list of valid container definitions provided as a single valid JSON document."
 }
 
+variable "runtime_platform" {
+  type        = map(string)
+  default     = null
+  description = "Information about the platform for the Amazon ECS service or task."
+}
+
 variable "is_enabled" {
   default     = true
   type        = string
