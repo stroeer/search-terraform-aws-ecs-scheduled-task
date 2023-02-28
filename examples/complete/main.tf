@@ -44,9 +44,30 @@ module "ecs_scheduled_task" {
   create_ecs_task_execution_role = false
   ecs_task_execution_role_arn    = aws_iam_role.ecs_task_execution.arn
 
+  ecs_task_role_arn = aws_iam_role.ecs_task_role_arn
+
   tags = {
     Environment = "prod"
   }
+}
+
+# task role definition
+resource "aws_iam_role" "ecs_task_role" {
+  name = "${var.name}-ecsTaskRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        },
+        Effect = "Allow",
+        Sid    = ""
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role" "ecs_events" {
