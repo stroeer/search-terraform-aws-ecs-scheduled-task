@@ -8,7 +8,7 @@ resource "aws_cloudwatch_event_rule" "default" {
 
   name        = var.name
   description = var.description
-  is_enabled  = var.is_enabled
+  state       = var.aws_cloudwatch_event_rule_state
 
   # All scheduled events use UTC time zone and the minimum precision for schedules is 1 minute.
   # CloudWatch Events supports Cron Expressions and Rate Expressions
@@ -132,7 +132,7 @@ resource "aws_ecs_task_definition" "default" {
 
   # Information about the platform for the Amazon ECS service or task.
   # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RuntimePlatform.html
-  dynamic runtime_platform {
+  dynamic "runtime_platform" {
     for_each = length(var.runtime_platform) > 1 ? [""] : []
     content {
       operating_system_family = var.runtime_platform.operating_system_family

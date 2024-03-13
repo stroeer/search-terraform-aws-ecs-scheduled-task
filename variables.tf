@@ -130,3 +130,9 @@ variable "ecs_task_role_arn" {
   type        = string
   description = "The ARN of the ECS Tasks own IAM Role."
 }
+
+variable "aws_cloudwatch_event_rule_state" {
+  default     = "ENABLED"
+  type        = string
+  description = "State of the rule. Valid values are DISABLED, ENABLED, and ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS."
+}
