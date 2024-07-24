@@ -216,3 +216,27 @@ locals {
 data "aws_iam_policy" "ecs_task_execution" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+
+# allow config reading
+resource "aws_iam_role_policy" "allow_s3_config" {
+  for_each = var.bucket_arn
+  name     = "${var.name}-${each.key}-ecsTaskRole-allow-s3-config"
+  role     = aws_iam_role.ecs_events[0].id
+
+  policy = data.aws_iam_policy_document.allow_s3[each.key].json
+}
+
+data "aws_iam_policy_document" "allow_s3" {
+  for_each = var.bucket_arn
+  statement {
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket",
+      "s3:GetObjectVersion",
+      "s3:HeadObject",
+    ]
+    resources = [each.value, "${each.value}/*"]
+    effect    = "Allow"
+    sid       = "AllowAccessS3"
+  }
+}

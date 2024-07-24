@@ -136,3 +136,8 @@ variable "aws_cloudwatch_event_rule_state" {
   type        = string
   description = "State of the rule. Valid values are DISABLED, ENABLED, and ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS."
 }
+
+variable "bucket_arn" {
+  type    = map(string)
+  default = {}
+}
