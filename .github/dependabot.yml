@@ -1,0 +1,40 @@
+version: 2
+updates:
+  # GitHub Actions ecosystem
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 8
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Terraform ecosystem
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 8
+    groups:
+      terraform:
+        patterns:
+          - "*"
+
+  # Docker ecosystem (for Dockerfile in examples if present)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 8
+    groups:
+      docker:
+        patterns:
+          - "*"
