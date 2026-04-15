@@ -124,7 +124,7 @@ resource "aws_ecs_task_definition" "default" {
   execution_role_arn = var.create_ecs_task_execution_role ? join("", aws_iam_role.ecs_task_execution.*.arn) : var.ecs_task_execution_role_arn
 
   # The ARN of an IAM role that allows the Amazon ECS container task to make calls to other AWS services.
-  task_role_arn = var.ecs_task_role_arn
+  task_role_arn = aws_iam_role.ecs_task_role.arn
 
   # A list of container definitions in JSON format that describe the different containers that make up your task.
   # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definitions
@@ -221,7 +221,7 @@ data "aws_iam_policy" "ecs_task_execution" {
 resource "aws_iam_role_policy" "allow_s3_config" {
   for_each = var.bucket_arn
   name     = "${var.name}-${each.key}-ecsTaskRole-allow-s3-config"
-  role     = aws_iam_role.ecs_events[0].id
+  role     = aws_iam_role.ecs_task_role.id
 
   policy = data.aws_iam_policy_document.allow_s3[each.key].json
 }
@@ -239,4 +239,23 @@ data "aws_iam_policy_document" "allow_s3" {
     effect    = "Allow"
     sid       = "AllowAccessS3"
   }
+}
+
+# task role definition
+resource "aws_iam_role" "ecs_task_role" {
+  name = "${var.name}-ecsTaskRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        },
+        Effect = "Allow",
+        Sid    = ""
+      }
+    ]
+  })
 }
